@@ -10,11 +10,17 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.mad_practical_10_21012011069.databinding.ActivityMapsBinding
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
-
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    private var lat: Double = 0.0
+    private var log: Double = 0.0
+    private var title = ""
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +45,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+        val sydney = LatLng(lat,  log )
+        mMap.addMarker(MarkerOptions().position(sydney)
+            .title(title)
+            .snippet(title)
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.images))
+        )
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,16.0f))
     }
 }
