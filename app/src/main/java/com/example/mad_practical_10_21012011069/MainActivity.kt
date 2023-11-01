@@ -1,10 +1,10 @@
 package com.example.mad_practical_10_21012011069
 
+
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ListView
-import com.example.mad_practical_10_21012011069.databinding.ActivityMapsBinding
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,20 +15,21 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var personListView : ListView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val btn = findViewById<FloatingActionButton>(R.id.btn_flt).setOnClickListener {
+        val btn= findViewById<FloatingActionButton>(R.id.autorenew_btn)
+        btn.setOnClickListener(){
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val data = HttpRequest().makeServiceCall(
                         "https://api.json-generator.com/templates/qjeKFdjkXCdK/data",
-                        "rbn0rerl1k0d3mcwgw7dva2xuwk780z1hxvyvrb1"
-                    )
+                        "rbn0rerl1k0d3mcwgw7dva2xuwk780z1hxvyvrb1")
                     withContext(Dispatchers.Main) {
                         try {
-                            if (data != null)
-                                runOnUiThread { getPersonDetailsFromJson(data) }
+                            if(data != null)
+                                runOnUiThread{getPersonDetailsFromJson(data)}
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -49,12 +50,10 @@ class MainActivity : AppCompatActivity() {
                 val person = Person(jsonObject)
                 personList.add(person)
             }
-            val personListView=findViewById<ListView>(R.id.list1)
+            val personListView=findViewById<ListView>(R.id.listview_main)
             personListView.adapter = PersonAdapter(this, personList)
         } catch (ee: JSONException) {
             ee.printStackTrace()
         }
     }
-
-
 }
